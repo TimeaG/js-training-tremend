@@ -38,6 +38,23 @@ mainCheckbox.addEventListener("change", function() {
 
 dataContainer.appendChild(mainCheckbox);
 
+function printCollections (collectionsArray, collectionsContainer, objToIterate, attribute) {
+
+    for (var i=0; i<collectionsArray.length; i++) {
+        var collectionId = collectionsArray[i];
+        for (var j=0;j<objToIterate.length; j++) {
+            var collectionItem = objToIterate[j];
+            if (collectionId==collectionItem.id) {
+                var item = createElement("li", null, {}, {"textContent": collectionItem.name});
+                item.setAttribute(attribute, collectionItem.id);
+                collectionsContainer.appendChild(item);
+            }
+        }
+    }
+
+    return collectionsContainer;
+}
+
 for (var i = 0; i < items.length; i++) {
     var item = items[i];
 
@@ -48,7 +65,6 @@ for (var i = 0; i < items.length; i++) {
     var descriptionContainer = document.createElement("li");
     var fileTypesContainer = document.createElement("li");
 
-    nameContainer.setAttribute("style", "color: red;");
 
     /**
      * innerHtml - only for html content
@@ -100,6 +116,13 @@ for (var i = 0; i < items.length; i++) {
     itemDataContainer.appendChild(descriptionContainer);
     itemDataContainer.appendChild(fileTypesContainer);
 
+    var colContainer = document.createElement("ul");
+    var itemCollection = printCollections(item.collections, colContainer, collections, "data-col-id");
+    itemDataContainer.appendChild(itemCollection);
+
+    var tagContainer = document.createElement("ul");
+    var itemTags = printCollections(item.tags, tagContainer, tags, "data-tag-id");
+    itemDataContainer.appendChild(itemTags);
 
     var checkboxContainer = document.createElement("li");
     var checkbox = document.createElement("input");
@@ -110,6 +133,8 @@ for (var i = 0; i < items.length; i++) {
 
     itemContainer.appendChild(itemDataContainer);
     itemsContainer.appendChild(itemContainer);
+
+
 }
 
 
